@@ -1,0 +1,11 @@
+version: '3'
+services:
+  python:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    container_name: docker-sandbox
+    ports:
+      - "80:5000"
+    volumes:
+      - .:/app
