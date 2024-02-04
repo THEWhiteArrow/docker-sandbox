@@ -5,11 +5,18 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Berlin /etc/localtime && echo Europe/Berl
 
 # Update package lists and install necessary dependencies
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip openjdk-8-jdk curl
+    apt-get install -y python3 python3-pip openjdk-8-jdk curl git
 
 # Set environment variables for Java
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH $PATH:$JAVA_HOME/bin
+
+# Install Node.js version 20.x
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -y nodejs
+
+# Install quicktype globally
+RUN npm install -g quicktype
 
 # Copy only the requirements file first
 COPY requirements.txt .
@@ -28,7 +35,6 @@ RUN curl -fsSL https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop
 ENV SPARK_HOME /opt/spark
 ENV PATH $PATH:$SPARK_HOME/bin
 
-
 # Copy the rest of your project files
 COPY . .
 
@@ -37,5 +43,6 @@ EXPOSE 80
 
 # Set the working directory
 WORKDIR /src
+
 # Set the default command to run your application
 CMD ["python3", "main.py"]

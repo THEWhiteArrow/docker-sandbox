@@ -21,12 +21,16 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python", 
-        "github.copilot", 
+        "ms-python.python",
+        "github.copilot",
         "ms-python.black-formatter",
         "eamodio.gitlens",
         "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker",
+        "stkb.rewrap",
+        "mrmlnc.vscode-makefile-tools",
+        "vscode-icons-team.vscode-icons"
       ]
     }
   }
