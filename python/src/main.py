@@ -32,3 +32,7 @@ output_dict_list_1 = df2list(df)
 # The following line will produce None or nan values
 output_dict_list_2 = df.toPandas().to_dict(orient="records")
 print("JOB 2 - FINISHED")
+
+# --- NOTICE ---
+# It would make sense to cast the input and output to the generated classes
+# so that the user has access to all the fields including those that are empty
