@@ -4,6 +4,8 @@ from lib.utils import df2list
 from generated.sandbox import Sandbox
 
 print("Hello World")
+
+# --- JOB 0 ---
 spark = SparkSession.Builder().appName("sandbox").getOrCreate()
 spark_context = spark.sparkContext
 obj = [
@@ -14,19 +16,19 @@ obj = [
     {"z": None, "a": 5, "b": 6, "c": {"e": 6, "f": 6}},
 ]
 
-# --- JOB 2 ---
-print("JOB 2 - STARTING")
+# --- JOB 1 ---
+print("JOB 1 - STARTING")
 sandbox_list = [Sandbox.from_dict(el) for el in obj]
 sandbox_dict_list = [el.to_dict() for el in sandbox_list]
 df = spark.createDataFrame(
     cast(Iterable[Row], spark_context.parallelize(sandbox_dict_list))
 )
-print("JOB 2 - FINISHED")
+print("JOB 1 - FINISHED")
 
-# --- JOB 3 ---
-print("JOB 3 - STARTING")
+# --- JOB 2 ---
+print("JOB 2 - STARTING")
 # The following line will NOT produce any None or nan values
 output_dict_list_1 = df2list(df)
 # The following line will produce None or nan values
 output_dict_list_2 = df.toPandas().to_dict(orient="records")
-print("JOB 3 - FINISHED")
+print("JOB 2 - FINISHED")
