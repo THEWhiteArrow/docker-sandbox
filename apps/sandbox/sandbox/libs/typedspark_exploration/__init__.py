@@ -99,10 +99,9 @@ df.select(Person.name, "address.street", "address.city").show()
 
 """ --- CONCLUSION ---
 (-)
-1. The current implementation of typedspark does not support nested schema transformation.
-2. The current implementation of typedspark does not support nested schema selection.
-3. It is possible to select nested schema using string path.
-4. It is possible to select nested schema using dot notation.
+1. The current implementation of typedspark does not support nested schema transformation or selection.
+2. It is possible to select nested schema using string path or dot notation.
+3. Additional schemas would be requried on each step of transformation, however those schemas could replace all JSON quicktype schemas.
 
 (+)
 1. It is easy to transform not nested schema.
