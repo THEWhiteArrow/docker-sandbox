@@ -18,17 +18,18 @@ RUN apt-get install -y nodejs
 # Install quicktype globally
 RUN npm install -g quicktype
 
-# Copy only the requirements file first
-COPY requirements.txt .
+# # Copy only the requirements file first
+# COPY requirements.txt .
 
 # Install project dependencies
-RUN pip3 install -r requirements.txt
+RUN pip3 install poetry
+# RUN pip3 install -r requirements.txt
 
 # Download and verify Apache Spark
-RUN curl -fsSL https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz -o spark.tgz \
+RUN curl -fsSL https://dlcdn.apache.org/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz -o spark.tgz \
     && if [ -s spark.tgz ]; then echo "Spark download successful."; else echo "Error: Spark download failed."; exit 1; fi \
     && tar xzf spark.tgz \
-    && mv spark-3.5.0-bin-hadoop3* /opt/spark \
+    && mv spark-3.5.1-bin-hadoop3* /opt/spark \
     && rm spark.tgz
 
 # Set environment variables for Spark

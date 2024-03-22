@@ -1,2 +1,6 @@
 codegen:
-	cd python && make codegen
+	cd apps/sandbox && make codegen
+
+
+install:
+	cd apps/sandbox && make install
