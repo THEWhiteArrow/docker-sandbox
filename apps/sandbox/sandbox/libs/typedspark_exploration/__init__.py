@@ -72,11 +72,19 @@ df.select(
     f"{Person.address.str}.{Address.city.str}",
 ).show()
 
-df.select(
-    Person.name,
-    PersonJson.address.street,
-    PersonJson.address.city,
-)
+ds.transform(
+    lambda ds: ds.select(
+        Person.name,
+        f"{Person.address.str}.{Address.street.str}",
+        f"{Person.address.str}.{Address.city.str}",
+    )
+).show()
+
+# df.select(
+#     Person.name,
+#     PersonJson.address.street,
+#     PersonJson.address.city,
+# )
 
 # throws error
 try:
