@@ -2,10 +2,12 @@ from typing import List, Dict, Type, cast, Iterable
 from typedspark import (
     Column,
     DataSet,
+    MetaSchema,
     Schema,
     MapType,
     ArrayType,
     StructType,
+    create_schema,
     register_schema_to_dataset,
     transform_to_schema,
 )
@@ -33,7 +35,7 @@ def create_people_df() -> DataFrame:
     )
 
 
-class Address(Schema):
+class AddressT(Schema):
     street: Column[StringType]
     city: Column[StringType]
     state: Column[StringType]
@@ -43,7 +45,7 @@ class Address(Schema):
 class Person(Schema):
     name: Column[StringType]
     age: Column[LongType]
-    address: Column[StructType[Address]]  # Specify keyType and valueType
+    address: Column[StructType[AddressT]]  # Specify keyType and valueType
     email: Column[StringType]
     devices: Column[ArrayType[StringType]]
 
@@ -68,15 +70,15 @@ class ConformedAddress(Schema):
 
 df.select(
     Person.name,
-    f"{Person.address.str}.{Address.street.str}",
-    f"{Person.address.str}.{Address.city.str}",
+    f"{Person.address.str}.{AddressT.street.str}",
+    f"{Person.address.str}.{AddressT.city.str}",
 ).show()
 
 ds.transform(
     lambda ds: ds.select(
         Person.name,
-        f"{Person.address.str}.{Address.street.str}",
-        f"{Person.address.str}.{Address.city.str}",
+        f"{Person.address.str}.{AddressT.street.str}",
+        f"{Person.address.str}.{AddressT.city.str}",
     )
 ).show()
 
@@ -116,3 +118,30 @@ df.select(Person.name, "address.street", "address.city").show()
 2. No need to cast it to Json objects.
 
 """
+
+
+da = DataSet[AddressT](ds.select("address.*"))
+da.show()
+
+
+print("--- SCHEMA_GENERATION ---")
+
+temp_df = spark.createDataFrame(
+    cast(Iterable[Row], spark_context.parallelize(demo_people_data)),
+    demo_people_spark_schema,
+)
+gen_ds, gen_schema = create_schema(temp_df)
+
+print(gen_schema)
+print(gen_ds)
+
+gen_ds.show()
+
+gen_schema.print_schema()
+
+print(gen_schema.name)
+try:
+    print(gen_schema.name2)
+except Exception as e:
+    print(e)
+    print("No such field")

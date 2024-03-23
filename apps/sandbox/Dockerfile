@@ -45,5 +45,13 @@ EXPOSE 80
 # Set the working directory
 WORKDIR /src
 
+RUN poetry shell
+
+# set the python interpreter to it
+RUN poetry env use python3
+
+
 # Set the default command to run your application
 CMD ["python3", "main.py"]
+
+

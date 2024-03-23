@@ -41,7 +41,7 @@ def task_2_test():
     print(df.toPandas().to_dict(orient="records"))
 
 
-def task_1_test():
+def test_task_1_test():
     obj = [
         {"z": None, "a": 1, "b": 2, "c": {"d": 3, "e": 4}, "g": ["a", "b", "c"]},
         {"z": None, "a": 3, "b": 4},
